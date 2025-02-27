@@ -28,7 +28,7 @@ export default function Dashboard() {
       name: "AI Image Classifier",
       description: "Classifies images using a pre-trained deep learning model.",
       endpoint: "http://127.0.0.1:8000/predict",
-      image: "https://source.unsplash.com/400x300/?technology,ai",
+      image: "https://th.bing.com/th/id/OIP.NVirUjsSQs9SsidxhJ-SFQHaDt?rs=1&pid=ImgDetMain",
       lastUpdated: "2025-02-25",
     },
   ]);
