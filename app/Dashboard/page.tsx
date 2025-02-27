@@ -31,22 +31,6 @@ export default function Dashboard() {
       image: "https://source.unsplash.com/400x300/?technology,ai",
       lastUpdated: "2025-02-25",
     },
-    {
-      _id: "2",
-      name: "WiFi Intrusion Detector",
-      description: "Monitors network traffic for suspicious activity.",
-      endpoint: "http://127.0.0.1:8001/scan",
-      image: "https://source.unsplash.com/400x300/?cybersecurity,hacker",
-      lastUpdated: "2025-02-26",
-    },
-    {
-      _id: "3",
-      name: "Medical Reminder App",
-      description: "A smart reminder system for medication schedules.",
-      endpoint: "http://127.0.0.1:8002/remind",
-      image: "https://source.unsplash.com/400x300/?medicine,reminder",
-      lastUpdated: "2025-02-27",
-    },
   ]);
 
   useEffect(() => {

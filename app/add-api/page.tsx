@@ -87,7 +87,7 @@ export default function AddApi() {
 
       {/* Back to Dashboard Button */}
       <button
-        onClick={() => router.push("/dashboard")}
+        onClick={() => router.push("/Dashboard")}
         className="mb-4 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
       >
         ← Back to Dashboard
