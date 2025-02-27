@@ -1,33 +1,55 @@
-import React from 'react'
-import { SimpleGrid } from "@chakra-ui/react"
-import Whiteboard from './components/Whiteboard'
-import { ClassNames } from '@emotion/react'
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-type Props = {}
+export default function Login() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-const Home = (props: Props) => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const res = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!res.ok) {
+      alert("Login failed!");
+      return;
+    }
+
+    const data = await res.json();
+    localStorage.setItem("token", data.token); // ✅ Store token
+    router.push("Dashboard"); // ✅ Redirect to dashboard
+  };
+
   return (
-    <>
-      <div className="flex h-screen">
-        {/* Left Side - Whiteboard */}
-        <div className="w-1/2 bg-gray-200 flex flex-col justify-center items-center p-4">
-          <h2 className="text-xl font-semibold mb-4">Whitboard</h2>
-          <div className="w-full h-full border border-gray-400 rounded-lg bg-white">
-            <Whiteboard />
-          </div>
-        </div>
-
-        {/* Right Side - ML Output */}
-        <div className="w-1/2 bg-gray-100 flex flex-col p-4">
-          <h2 className="text-xl font-semibold mb-4">ML Output</h2>
-          <div className="border border-gray-400 rounded-lg bg-white p-4 h-full">
-            {/* ML Output Display */}
-            <p className="text-gray-500">Waiting for ML predictions...</p>
-          </div>
-        </div>
-      </div>
-    </>
-  )
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+      <form className="bg-gray-800 p-6 rounded-lg shadow-lg" onSubmit={handleLogin}>
+        <h2 className="text-lg font-semibold mb-4">Login</h2>
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full p-2 mb-2 rounded bg-gray-700 text-white"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full p-2 mb-4 rounded bg-gray-700 text-white"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit" className="w-full bg-blue-500 p-2 rounded hover:bg-blue-600">
+          Login
+        </button>
+      </form>
+    </div>
+  );
 }
-
-export default Home

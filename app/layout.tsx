@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from '@/components/Navbar';
-import Dashboard from "./Dashboard/page";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,20 +18,14 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  children, // ✅ Allow dynamic page rendering
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body
-        suppressHydrationWarning
-      >
+      <body suppressHydrationWarning>
         <div className="bg-gray-900">
-          <Navbar />
-          <Dashboard />
+          {children} {/* ✅ Now, this will render the correct page */}
         </div>
-
       </body>
     </html>
   );

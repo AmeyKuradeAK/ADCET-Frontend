@@ -2,13 +2,23 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
+  const pathname = usePathname();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  // Track mouse movement
+  // ✅ Check login status from localStorage
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  // ✅ Track mouse movement for animation
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMouseX(e.clientX);
@@ -18,6 +28,16 @@ const Navbar = () => {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
+  // ✅ Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    router.push("/login");
+  };
+
+  // ✅ Hide Navbar on login page
+  if (pathname === "/login") return null;
 
   return (
     <nav
@@ -40,16 +60,13 @@ const Navbar = () => {
 
       {/* Left: Company Name */}
       <div className="text-lg font-semibold relative z-10">
-        <Link href="/">MyCompany</Link>
+        <Link href="/">SmartCanvas</Link>
       </div>
 
       {/* Center: Navigation Links */}
       <div className="space-x-6 relative z-10">
-        <Link href="/" className="hover:text-blue-400 transition-colors">
+        <Link href="/dashboard" className="hover:text-blue-400 transition-colors">
           Dashboard
-        </Link>
-        <Link href="/repos" className="hover:text-blue-400 transition-colors">
-          Repository
         </Link>
         <Link href="/docs" className="hover:text-blue-400 transition-colors">
           Docs
@@ -59,25 +76,34 @@ const Navbar = () => {
       {/* Right: Authentication */}
       <div className="relative z-10">
         {isLoggedIn ? (
-          <div className="relative group">
-            <button className="bg-gray-700 px-4 py-2 rounded-md hover:bg-gray-600 transition">
-              Profile
+          <div
+            className="relative"
+            onMouseEnter={() => setShowDropdown(true)}
+            onMouseLeave={() => setShowDropdown(false)}
+          >
+            {/* ✅ Profile Circle */}
+            <button className="w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center">
+              <span className="text-white text-lg">👤</span>
             </button>
-            <div className="absolute right-0 mt-2 w-40 bg-gray-800 rounded-md shadow-lg hidden group-hover:block">
-              <Link href="/profile" className="block px-4 py-2 hover:bg-gray-700">
-                Profile
-              </Link>
-              <button
-                onClick={() => setIsLoggedIn(false)}
-                className="block w-full text-left px-4 py-2 hover:bg-gray-700"
-              >
-                Logout
-              </button>
-            </div>
+
+            {/* ✅ Dropdown Menu */}
+            {showDropdown && (
+              <div className="absolute right-0 mt-2 w-40 bg-gray-800 rounded-md shadow-lg">
+                <Link href="/profile" className="block px-4 py-2 hover:bg-gray-700">
+                  Profile
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-700"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <Link
-            href="/auth"
+            href="/login"
             className="bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 transition transform hover:scale-105"
           >
             Sign In / Sign Up
