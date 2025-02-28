@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Result from "./components/Result";
 
 const WhiteboardApp = () => {
   return (
@@ -15,7 +16,7 @@ const WhiteboardApp = () => {
         <h2 className="text-xl font-semibold mb-4">ML Output</h2>
         <div className="border border-gray-400 rounded-lg bg-white p-4 h-full">
           {/* ML Output Display */}
-          <p className="text-gray-500">Waiting for ML predictions...</p>
+          <Result />
         </div>
       </div>
     </div>

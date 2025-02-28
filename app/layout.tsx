@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning>
         <div className="bg-gray-900">
-          {children} {/* ✅ Now, this will render the correct page */}
+          {children /* ✅ Allow dynamic page rendering */}
         </div>
       </body>
     </html>

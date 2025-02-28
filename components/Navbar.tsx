@@ -65,7 +65,7 @@ const Navbar = () => {
 
       {/* Center: Navigation Links */}
       <div className="space-x-6 relative z-10">
-        <Link href="/dashboard" className="hover:text-blue-400 transition-colors">
+        <Link href="/" className="hover:text-blue-400 transition-colors">
           Dashboard
         </Link>
         <Link href="/docs" className="hover:text-blue-400 transition-colors">
